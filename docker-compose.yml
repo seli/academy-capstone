@@ -3,3 +3,7 @@ version: "3.9"
 services:
    pyspark:
       build: pyspark/
+      container_name: capstone_pyspark
+      volumes:
+         - $HOME/.aws/credentials:/root/.aws/credentials
+

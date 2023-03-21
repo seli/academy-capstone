@@ -1,5 +1,12 @@
 FROM python:3.9-slim-buster
 
+USER root
+
+RUN apt-get update && \
+    apt-get install -y procps openjdk-11-jdk python3-venv && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY requirements.txt /app
