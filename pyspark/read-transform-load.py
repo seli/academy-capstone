@@ -27,7 +27,7 @@ def flatten_data(frame: DataFrame) -> DataFrame:
     flattened_frame = (
         frame
             .select("*", "coordinates.*", "date.*")
-            .drop("coordinated", "date")
+            .drop("coordinates", "date")
     )
     return flattened_frame;
 
