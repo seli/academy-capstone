@@ -1,0 +1,6 @@
+# list the s3 bucket
+aws s3 ls s3://dataminded-academy-capstone-resources/raw/open_aq/
+
+
+
+

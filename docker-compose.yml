@@ -1,0 +1,5 @@
+version: "3.9"
+
+services:
+   pyspark:
+      build: pyspark/
