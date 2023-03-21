@@ -1,10 +1,11 @@
+import boto3
+
 from pathlib import Path
 
 from pyspark import SparkConf
 from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.functions import to_timestamp, col
 
-from pyspark.sql.functions import to_timestamp, unix_timestamp, col
-from pyspark.sql.types import TimestampType
 
 # Use S3 AWS Bucket: s3a://dataminded-academy-capstone-resources/raw/open_aq/
 BUCKET = "s3a://dataminded-academy-capstone-resources/"
@@ -50,6 +51,13 @@ def transform_data(frame: DataFrame) -> DataFrame:
     )
     return transformed_frame
 
+def get_snowflake_credentials():
+    client = boto3.client('secretsmanager', region_name='eu-west-1')
+    secret_name = 'snowflake/capstone/login'
+    response = client.get_secret_value(SecretId=secret_name)
+    secret_value = response['SecretString']
+    print(secret_value)
+
 
 if __name__ == "__main__":
     # Extract
@@ -65,4 +73,4 @@ if __name__ == "__main__":
     transformed_frame.printSchema()
     transformed_frame.show(truncate=False)
     # Load
-    # TODO
+    get_snowflake_credentials()
