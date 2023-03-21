@@ -1,4 +1,5 @@
 import boto3
+import json
 
 from pathlib import Path
 
@@ -12,7 +13,7 @@ BUCKET = "s3a://dataminded-academy-capstone-resources/"
 KEY = "raw/open_aq"
 
 config = {
-    "spark.jars.packages": "org.apache.hadoop:hadoop-aws:3.3.2",
+    "spark.jars.packages": "org.apache.hadoop:hadoop-aws:3.3.2,net.snowflake:spark-snowflake_2.12:2.11.1-spark_3.3,net.snowflake:snowflake-jdbc:3.13.2",
     "spark.hadoop.fs.s3a.aws.credentials.provider": "com.amazonaws.auth.DefaultAWSCredentialsProviderChain"
 }
 conf = SparkConf().setAll(config.items())
@@ -51,13 +52,33 @@ def transform_data(frame: DataFrame) -> DataFrame:
     )
     return transformed_frame
 
-def get_snowflake_credentials():
+def get_snowflake_credentials() -> dict:
     client = boto3.client('secretsmanager', region_name='eu-west-1')
     secret_name = 'snowflake/capstone/login'
     response = client.get_secret_value(SecretId=secret_name)
     secret_value = response['SecretString']
-    print(secret_value)
+    return json.loads(secret_value)
 
+
+def load_data(frame: DataFrame, snowflake_secret: dict):
+    options = {
+        "sfURL": snowflake_secret['URL'],
+        "sfWarehouse": snowflake_secret['WAREHOUSE'],
+        "sfDatabase": snowflake_secret['DATABASE'],
+        "sfSchema": "SERGE@PXL",
+        "dbtable": "SERGE_WEATHER_TABLE",
+        "sfUser": snowflake_secret['USER_NAME'],
+        "sfPassword": snowflake_secret['PASSWORD'],
+        "sfRole": snowflake_secret['ROLE']
+    }
+    (
+    frame.write
+        .format('snowflake')
+        .options(**options) 
+        .mode('overwrite') 
+        .save()
+    )
+     
 
 if __name__ == "__main__":
     # Extract
@@ -73,4 +94,6 @@ if __name__ == "__main__":
     transformed_frame.printSchema()
     transformed_frame.show(truncate=False)
     # Load
-    get_snowflake_credentials()
+    secret_value = get_snowflake_credentials()
+    print(secret_value)
+    load_data(transformed_frame, secret_value)

@@ -1,3 +1,4 @@
 pyspark
 pytest
 boto3
+snowflake-connector-python
