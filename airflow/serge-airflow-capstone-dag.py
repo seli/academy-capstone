@@ -5,7 +5,7 @@ from airflow.providers.amazon.aws.operators.batch import BatchOperator
 with DAG(
     dag_id='serge_pxl_batch_job',
     schedule_interval='@once',
-    start_date=datetime(2023, 3, 27),
+    start_date=pendulum.datetime(2023, 3, 27),
     catchup=False,
 ) as serge_pxl_batch_job:
     serge_capstone_batch_job = BatchOperator(
