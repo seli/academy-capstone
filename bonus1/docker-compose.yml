@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+   airquality:
+      build: airquality/
+      container_name: bonus1_airquality
+      volumes:
+         - $HOME/.aws/credentials:/root/.aws/credentials
+
