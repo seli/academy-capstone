@@ -1,5 +1,12 @@
+# start using aws
+aws configure
+
 # list the s3 bucket
 aws s3 ls s3://dataminded-academy-capstone-resources/raw/open_aq/
+
+# copy files to s3 bucket
+aws s3 cp <source> <dest>
+
 
 
 
