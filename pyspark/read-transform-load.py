@@ -13,7 +13,7 @@ BUCKET = "s3a://dataminded-academy-capstone-resources/"
 KEY = "raw/open_aq"
 
 config = {
-    "spark.jars.packages": "org.apache.hadoop:hadoop-aws:3.3.2,net.snowflake:spark-snowflake_2.12:2.11.1-spark_3.3,net.snowflake:snowflake-jdbc:3.13.2",
+#    "spark.jars.packages": "org.apache.hadoop:hadoop-aws:3.3.2,net.snowflake:spark-snowflake_2.12:2.11.1-spark_3.3,net.snowflake:snowflake-jdbc:3.13.24",
     "spark.hadoop.fs.s3a.aws.credentials.provider": "com.amazonaws.auth.DefaultAWSCredentialsProviderChain"
 }
 conf = SparkConf().setAll(config.items())

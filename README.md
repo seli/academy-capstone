@@ -82,6 +82,9 @@ obtained in the previous step. Your Spark application will also require addition
 - `net.snowflake:spark-snowflake_2.12:2.9.0-spark_3.1`
 - `net.snowflake:snowflake-jdbc:3.13.3`
 
+Jars can also be added to the folder in the docker container (check the correct python installation and be sure pyspark is installed):
+- `/usr/local/lib/python3.9/site-packages/pyspark/jars`
+
 Scan the Snowflake docs to figure out how to load data through Spark. All 
 required configuration is stored in the AWS secret except the following:
 
