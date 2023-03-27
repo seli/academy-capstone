@@ -1,9 +1,14 @@
 version: "3.9"
 
 services:
-   pyspark:
-      build: pyspark/
-      container_name: capstone_pyspark
+#   pyspark:
+#      build: pyspark/
+#      container_name: capstone_pyspark
+#      volumes:
+#         - $HOME/.aws/credentials:/root/.aws/credentials
+   airquality:
+      build: airquality/
+      container_name: capstone_airquality
       volumes:
          - $HOME/.aws/credentials:/root/.aws/credentials
 
