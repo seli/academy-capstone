@@ -1,5 +1,6 @@
 import pendulum
 from airflow import DAG
+from airflow.providers.amazon.aws.operators.batch import BatchOperator
 
 serge_capstone_batch_job = BatchOperator(
     task_id = 'serge_pxl_batch_job',
